@@ -31,6 +31,16 @@ spec:
             - -c
             - sleep 5; n8n start
           env:
+            - name: N8N_HOST
+              value: n8n.tenderpro.pl
+            - name: N8N_PORT
+              value: "5678"
+            - name: WEBHOOK_URL
+              value: http://n8n.tenderpro.pl
+            - name: N8N_RUNNERS_ENABLED
+              value: "true"
+            - name: VUE_APP_URL_BASE_API
+              value: http://n8n.tenderpro.pl
             - name: DB_TYPE
               value: postgresdb
             - name: DB_POSTGRESDB_HOST
@@ -51,8 +61,6 @@ spec:
                   key: POSTGRES_NON_ROOT_PASSWORD
             - name: N8N_PROTOCOL
               value: http
-            - name: N8N_PORT
-              value: "5678"
             - name: N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS
               value: "false"
             - name: DB_POSTGRESDB_SSL_ENABLED
@@ -66,12 +74,14 @@ spec:
           image: n8nio/n8n
           name: n8n
           ports:
-            - containerPort: 5678
+            - containerPort: 80
           resources:
             requests:
-              memory: "250Mi"
+              memory: "1Gi"
+              cpu: "500m"
             limits:
-              memory: "500Mi"
+              memory: "2Gi"
+              cpu: "2"
           volumeMounts:
             - mountPath: /home/node/.n8n
               name: n8n-claim0

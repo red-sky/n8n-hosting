@@ -7,6 +7,7 @@ metadata:
     service.beta.kubernetes.io/do-loadbalancer-enable-backend-keepalive: "true"
     service.beta.kubernetes.io/do-loadbalancer-protocol: "http"
     service.beta.kubernetes.io/do-loadbalancer-http-ports: "80,5678"
+    service.beta.kubernetes.io/do-loadbalancer-hostname: n8n.tenderpro.pl
   name: n8n
   namespace: n8n
 spec:
