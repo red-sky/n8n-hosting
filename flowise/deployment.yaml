@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flowise
+  namespace: flowise
+  labels:
+    app: flowise
+spec:
+  selector:
+    matchLabels:
+      app: flowise
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: flowise
+    spec:
+      containers:
+      - name: flowise
+        image: flowiseai/flowise:3.0.2
+        imagePullPolicy: Always
+        resources: 
+          requests:
+            cpu: "100m"
+            memory: "512Mi"
+          limits:
+            cpu: "2"
+            memory: "512Mi"
+        env:
+
+        - name: PORT
+          value: "3000"
+        - name: FLOWISE_SECRETKEY_OVERWRITE
+          value: "encryption-key"
+        - name: APIKEY_PATH
+          value: "/data"
+        - name: BLOB_STORAGE_PATH
+          value: "/data/storage"
+        - name: SECRETKEY_PATH
+          value: "/data"
+        - name: DATABASE_PATH
+          value: "/data"
+        - name: DATABASE_TYPE
+          value: "postgres"
+        - name: DATABASE_HOST
+          value: "private-db-postgresql-fra1-74367-do-user-23066415-0.k.db.ondigitalocean.com"
+        - name: DATABASE_PORT
+          value: "25060"
+        - name: DATABASE_USER
+          value: "flowise" 
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: DATABASE_NAME
+          value: "flowise"
+        - name: DATABASE_SSL
+          value: "true"
+        - name: NODE_TLS_REJECT_UNAUTHORIZED
+          value: "0"
+        - name: NODE_OPTIONS
+          value: "--max-old-space-size=400"

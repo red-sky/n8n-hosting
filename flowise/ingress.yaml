@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flowise-ingress
+  namespace: flowise
+spec:
+  ingressClassName: nginx
+  # tls:
+  #   - hosts:
+  #       - flowise.tenderpro.pl
+  rules:
+  #   - http:
+  #       paths:
+  #         - path: /*
+  #           pathType: ImplementationSpecific
+  #           backend:
+  #             service:
+  #               name: ssl-redirect
+  #               port:
+  #                 name: use-annotation
+    - host: flowise.tenderpro.pl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: flowise-service
+                port:
+                  number: 80
